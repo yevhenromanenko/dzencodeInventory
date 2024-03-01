@@ -1,70 +1,115 @@
-# Getting Started with Create React App
+# INVENTORYAPP by Yevhen Romanenko
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Запуск и тестирование приложения.
 
-## Available Scripts
+## Запуск с помощью NPM
 
-In the project directory, you can run:
+1.1 Развертывание приложения в любой удобной среде разработки
 
-### `npm start`
+Вы можете развернуть приложение, выполнив следующие команды в терминале из директории проекта:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- Перейдите в директорию ./client и выполните команду:
+### `npm install`;
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- Перейдите в директорию ./server и выполните команду:
+### `npm install`;
 
-### `npm test`
+- Запустите сервер из директории ./server:
+### `node server.js`;
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- Запустите клиентскую часть приложения из директории ./client:
+### `npm start`;
 
-### `npm run build`
+1.2. Проверка доступности приложения
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Теперь вы можете получить доступ к приложению, перейдя по адресу http://localhost:3000 в вашем браузере. Запустится серверная и клиентская часть.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+---------------------------------------
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Запуск с помощью Docker
 
-### `npm run eject`
+1.1. Загрузка образов
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+- Загрузите образы клиентской и серверной частей с Docker Hub:
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### `docker pull yevhenromanenko/dzencodeinventory-client:latest`;
+### `docker pull yevhenromanenko/dzencodeinventory-server:latest`;
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+1.2. Создание файла docker-compose.yml
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+Создайте файл `docker-compose.yml` со следующим содержанием:
 
-## Learn More
+  ```yaml
+   version: "3"
+   services:
+     client:
+       image: yevhenromanenko/dzencodeinventory-client:latest
+       ports:
+         - "3000:3000"
+       depends_on:
+         - server
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+     server:
+       image: yevhenromanenko/dzencodeinventory-server:latest
+       ports:
+         - "3003:3003"
+       command: "node server.js"
+  ```     
+  
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+1.3. Запуск контейнеров
 
-### Code Splitting
+- Теперь запустите контейнеры Docker на своем компьютере:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+### `docker-compose up`;
 
-### Analyzing the Bundle Size
+1.4. Проверка доступности приложения
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+Теперь вы должны иметь возможность получить доступ к приложению, перейдя http://localhost:3000 в вашем браузере. Запустится серверная и клиентская часть.
 
-### Making a Progressive Web App
+---------------------------------------
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+## Использование приложения
 
-### Advanced Configuration
+1. Приложение запустится по адресу [http://localhost:3000](http://localhost:3000) в вашем браузере.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+2. Здесь вы можете видеть логин в приложение, но перед логином выполните пункт 4.
 
-### Deployment
+3. Зарегистируйтесь в приложение перед тем как залогиниться:
+- нажмите "Нет аккаунта?";
+- введите ваше имя;
+- введите пароль; // вы можете просмотреть пароль, который вводите
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+4. На этом этапе вы должны находится в приложении INVENTORY, итак что вы можете здесь делать:
+- в Header вы можете видеть лого, работающий поиск продуктов (можно ввести название продукта и найти его легко, а затем перейти на продукт), так же вы видете дальше Active Sessions - это отображение сколько сейчас пользователей в онлайне в этом приложении. Далее вы видете сегодняшнюю дату, время и кнопку "Выйти".
+- в Sidebar вы видете имя пользователя который залогинился, статус онлайн, настройки пользователя и фото (в будущем можно будет сделать настройки пользователя, чтоб пользователь мог редактировать имя, фото и тд). Так же вы можете перейти на такие вкладки как: "Приход", "Группы", "Продукты", "Пользователи", "Настройки". Разберем каждую вкладку в след пунктах.
+- Приход - вы можете добавить xls документ для загрузки прихода от поставщика например. Программа разберет этот документ, возьмет все нужные поля и внесет в программу, а так же сохранит на сервер. Для того, чтоб проверить это, я прикрепил  [Book1.xlsx](Book1.xlsx) и [Book2Phone.xlsx](Book2Phone.xlsx). Загрузите этот файл при добавлении прихода, чтобы протестировать полностью приложение.
+- Группы - здесь будут отображаться группы продуктов в зависимости от того к какой грппе относятся товары. То есть "Мониторы" будут относиться к группе "Мониторы", "Телефоны" к группе "Телефоны" и так далее. Вы можете просмотреть продукты и если нужно удалить какие то продукты вы можете это сделать.
+- Продукты - здесь будут отображаться все продукты со всех приходов (в будущем могу сделать сортировку по приходу, по группе товаров или любую другую). Тут можно добавить продукт, если его нет в каком-либо добавленном приходе, заполнив все графы, и выбрав к какому приходу относится данный продукт.
+- Пользователи - здесь будут отображаться все зарегистрированные пользователи и вы можете видеть какие пользователи онлайн сейчас, а какие оффлайн. Для тестирования можно создать несколько пользователей с разных браузеров. (в будущем можно сделать начначение админа, разрешение для пользователей что они могут делать и тд)
+- Настройки - в будущем можно будет добавить любые настройки приложения, например, сделать тему приложения темной или еще что-то.
 
-### `npm run build` fails to minify
+---------------------------------------------
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## Вероятные ошибки при запуске приложения:
+
+1. Если вы видете ошибку (вероятность ошибки 2%).
+
+### '/node_modules/bson/lib/bson.cjs:579'
+### 'inspect ??= defaultInspect'
+### '^^^'
+
+тогда запустите команду находясь в директории ./server
+
+### `npm i mongoose@7.6.3`;
+
+Эта ошибка версий mongoose, мы можем откатиться на более старую версию, чтоб не было такой проблемы.
+Далее попробуйте запустить файл сервера вручную с помощью команды:
+
+### `node server.js`;
+
+После этого все должно работать хорошо.
+В случае возникновения других ошибок, прошу сообщить мне - [https://t.me/yevhen_romanenko](https://t.me/yevhen_romanenko)
+
+
+

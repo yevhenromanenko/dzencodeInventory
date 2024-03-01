@@ -1,0 +1,13 @@
+.group-product-container {
+    transition: width 0.9s ease-in-out, margin-right 0.9s ease-in-out;
+}
+
+.group-product-container.collapsed {
+    width: 100%;
+    margin-right: 0;
+}
+
+.group-product-container.expanded {
+    width: 30%;
+    margin-right: 5%;
+}

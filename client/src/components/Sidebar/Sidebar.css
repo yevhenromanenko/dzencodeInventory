@@ -1,0 +1,4 @@
+.relative:hover .fa-cog {
+    transform: scale(1.4);
+    transition: transform 0.3s ease;
+}
