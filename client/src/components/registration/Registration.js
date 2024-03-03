@@ -1,10 +1,11 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {Link, useNavigate} from "react-router-dom";
 import {AuthContext} from "../../context/AuthContext";
 import axios from "axios";
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {HOST_NAME} from "../../HOST_NAME";
+import firstRightName from "../../functions/first-right-name/firstRightName";
 
 const Registration = ({setUserName}) => {
     const navigate = useNavigate();
@@ -21,6 +22,10 @@ const Registration = ({setUserName}) => {
     const changeHandlerUser = (event) => {
         setForm({...form, [event.target.name]: event.target.value});
     }
+
+    useEffect(() => {
+        document.title = "Registration";
+    }, []);
 
     const handleRegistration = async () => {
 
@@ -56,9 +61,10 @@ const Registration = ({setUserName}) => {
                         navigate(loginResponse.data.redirectTo);
                     }
 
-                    let firstRightName = loginResponse.data.username[0].toUpperCase() + loginResponse.data.username.slice(1);
-                    setUserName(firstRightName);
-                    toast.success(`Регистрация прошла успешно! Добро пожаловать ${firstRightName}`);
+                    const formattedName = firstRightName(loginResponse.data.username);
+                    setUserName(formattedName);
+
+                    toast.success(`Регистрация прошла успешно! Добро пожаловать ${formattedName}`);
 
                 } else {
                     console.error('Login after registration failed');
@@ -120,10 +126,6 @@ const Registration = ({setUserName}) => {
             <p className="mt-4 text-gray-600">
                <Link to="/" className="text-blue-500 hover:underline">Уже есть аккаунт?</Link>
             </p>
-            <script>
-                {document.title = "Регистрация"}
-            </script>
-            <ToastContainer />
         </div>
     );
 };

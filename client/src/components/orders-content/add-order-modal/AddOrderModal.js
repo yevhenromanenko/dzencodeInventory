@@ -15,7 +15,7 @@ const AddOrderModal = ({onClose, userId, setUpdatedOrders}) => {
 
     const handleAddOrder = async () => {
         if (!file) {
-            toast.error("Please select a file");
+            toast.error("Пожалуйста, выберите файл");
             return;
         }
 
@@ -51,14 +51,14 @@ const AddOrderModal = ({onClose, userId, setUpdatedOrders}) => {
                     { value: product.price[0].value, symbol: 'USD', isDefault: 0 },
                     { value: product.price[1].value, symbol: 'UAH', isDefault: 1 },
                 ],
-                order: orderId = product.order,
+                order: (orderId = product.order),
                 date: product.date,
             }));
 
             const newOrder = {
                 userId: userId,
                 id: orderId,
-                title: orderName || `Order ${response.data.orderCount + 1}`,
+                title: orderName || `Order`,
                 date: new Date().toISOString(),
                 description: orderDescription,
                 products: newProducts,
@@ -72,6 +72,7 @@ const AddOrderModal = ({onClose, userId, setUpdatedOrders}) => {
             setUpdatedOrders(prevOrders => [...prevOrders, res.data]);
             toast.success("Приход успешно добавлен");
             onClose();
+
         } catch (error) {
             console.error("Error uploading file:", error);
             toast.error("Error uploading file");

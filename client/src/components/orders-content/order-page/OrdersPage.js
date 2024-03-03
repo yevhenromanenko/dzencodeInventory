@@ -4,11 +4,14 @@ import OrderItem from "../order-item/OrderItem";
 import AddOrderModal from "../add-order-modal/AddOrderModal";
 import GetOrdersFromServer from "../get-orders-from-server/GetOrdersFromServer";
 import {HOST_NAME} from "../../../HOST_NAME";
-import {ToastContainer} from "react-toastify";
 
 const OrdersPage = ({userId, setLoading, loading, setUpdatedOrders, updatedOrders}) => {
     const [showModal, setShowModal] = useState(false);
     const [isDeleting, setIsDeleting] = useState(false);
+
+    useEffect(() => {
+        document.title = "Приход";
+    }, []);
 
     useEffect(() => {
         GetOrdersFromServer(userId, setUpdatedOrders, setLoading);
@@ -73,10 +76,6 @@ const OrdersPage = ({userId, setLoading, loading, setUpdatedOrders, updatedOrder
                     )}
                 </div>
             </div>
-            <script>
-                {document.title = "Приход"}
-            </script>
-            <ToastContainer />
         </div>
     );
 };

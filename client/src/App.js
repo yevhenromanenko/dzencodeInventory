@@ -73,7 +73,6 @@ function App() {
         });
 
         return () => {
-            console.log('Cleaning up useEffect');
             socket.disconnect();
         };
     }, [userId]);

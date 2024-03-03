@@ -1,10 +1,14 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 
 const UsersPage = ({users, activeUserIds}) => {
 
     const getUserStatusColor = (user) => {
         return activeUserIds.includes(user.id) ? 'bg-green-500' : 'bg-red-500';
     };
+
+    useEffect(() => {
+        document.title = "Пользователи";
+    }, []);
 
     return (
         <>

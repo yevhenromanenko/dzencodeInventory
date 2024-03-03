@@ -138,7 +138,7 @@ const AddProductModal = ({ onClose, onUpdateProducts, updatedProducts, userId, s
                                 <option value="">Загрузка...</option>
                             ) : orders.length > 0 ? (
                                 orders.map((order) => (
-                                    <option key={order._id} value={order._id}>
+                                    <option key={order._id} value={order.id}>
                                         {order.title}
                                     </option>
                                 ))

@@ -10,6 +10,10 @@ function GroupsPage ({userId, loadingProduct, setLoadingProduct}) {
     const [updatedGroups, setUpdatedGroups] = useState([]);
 
     useEffect(() => {
+        document.title = "Группы";
+    }, []);
+
+    useEffect(() => {
         const fetchData = async () => {
             try {
                await GetProductsFromServer(userId, setUpdatedProducts, setLoadingProduct);
@@ -47,9 +51,6 @@ function GroupsPage ({userId, loadingProduct, setLoadingProduct}) {
                     ))
                 )}
             </div>
-            <script>
-                {document.title = "Группы"}
-            </script>
         </div>
     );
 }

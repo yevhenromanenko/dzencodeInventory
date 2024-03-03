@@ -1,11 +1,12 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {Link} from "react-router-dom";
 import axios from "axios";
 import {AuthContext} from "../../context/AuthContext";
 import { useNavigate } from 'react-router-dom';
 import {HOST_NAME} from "../../HOST_NAME";
-import { toast, ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import firstRightName from "../../functions/first-right-name/firstRightName";
 
 const Login = ({setUserName}) => {
     const navigate = useNavigate();
@@ -18,9 +19,14 @@ const Login = ({setUserName}) => {
 
     const {login} = useContext(AuthContext)
 
+    useEffect(() => {
+        document.title = "Login";
+    }, []);
+
     const changeHandlerUser = (event) => {
         setForm({...form, [event.target.name]: event.target.value});
     }
+
 
     const handleLogin = async () => {
         try {
@@ -44,9 +50,9 @@ const Login = ({setUserName}) => {
                 };
                 localStorage.setItem('user', JSON.stringify(userObject));
 
-                let firstRightName = response.data.username[0].toUpperCase() + response.data.username.slice(1);
-                setUserName(`${firstRightName}`)
-                toast.success(`Добро пожаловать ${response.data.username.charAt(0).toUpperCase() + response.data.username.slice(1)}`);
+                const formattedName = firstRightName(response.data.username);
+                setUserName(formattedName);
+                toast.success(`Добро пожаловать ${formattedName}`);
 
             } else {
                 console.error('Login failed');
@@ -105,10 +111,6 @@ const Login = ({setUserName}) => {
             <p className="mt-4 text-gray-600">
                 <Link to="/registration" className="text-blue-500 hover:underline">Нет аккаунта?</Link>
             </p>
-            <script>
-                {document.title = "Login"}
-            </script>
-            <ToastContainer />
         </div>
     );
 };
